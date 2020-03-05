@@ -55,7 +55,7 @@
     </div>
     <div class="col-md-9 products-wrapper">
         <div class="products-callus hideMobile">
-        <a href="#" class="btn btn-warning font-weight-bold"><i class="fas fa-question-circle"></i> Comanda si te contactam noi: 0725391572</a>
+        <a href="#" class="btn btn-warning font-weight-bold"><i class="fas fa-question-circle"></i> Comanda si te contactam noi: 07XXXXXXXX</a>
         </div>
         <div class="card products-card">
             <div class="card-header products-card-header">
