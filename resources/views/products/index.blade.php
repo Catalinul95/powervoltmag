@@ -322,7 +322,7 @@
                         $(child).attr('class', 'fas fa-shopping-cart');
                         $(child1).text('Adauga in Cos');
 
-                        $('.product-car-item' + productId).remove();
+                        $('.product-cart-item' + productId).remove();
                     } else {
                         $(child).attr('class', 'fas fa-trash');
                         $(child1).text('Elimina din Cos');
@@ -355,6 +355,7 @@
                     if ($(child).attr('class') == 'fas fa-trash') {
                         $(child).attr('class', 'fas fa-shopping-cart');
                         $(child1).text('Adauga in Cos');
+                        $('.product-cart-item' + productId).remove();
                     } else {
                         $(child).attr('class', 'fas fa-trash');
                         $(child1).text('Elimina din Cos');

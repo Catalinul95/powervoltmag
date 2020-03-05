@@ -42,8 +42,8 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     @if (App\Cart::countItems())
                         @foreach (App\Cart::getItems() as $product)
-                            <div class="dropdown-item product-car-item{{$product['id']}}">
-                                <span class="addToCartButton smallIconRemoveFromCart" data-id="{{ $product['id'] }}"><i class="fas fa-trash" aria-hidden="true"></i></span>
+                            <div class="dropdown-item product-cart-item{{$product['id']}}">
+                                <span class="smallIconRemoveFromCart" data-id="{{ $product['id'] }}"><i class="fas fa-trash" aria-hidden="true"></i></span>
                                 <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
                                     <div class="row">
                                         <div class="col-md-3">

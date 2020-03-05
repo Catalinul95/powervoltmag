@@ -37,6 +37,7 @@ body {
 .cart-link {
   position: relative;
   cursor: pointer;
+  color: red !important;
 }
 
 .cartItems {
