@@ -78,7 +78,7 @@
                                 <button class="btn btn-danger btn-sm addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> <span>Adauga in Cos</span></button>
                             @endif
                             
-                            <a href="{{ route('products.show', ['category' => $category->slug, 'product' => $product->slug]) }}" class="btn btn-info btn-sm">Detalii</a>
+                            <a href="{{ route('products.show', ['category' => $product->category->slug, 'product' => $product->slug]) }}" class="btn btn-info btn-sm">Detalii</a>
                         </div>
                     </div>
                 @endforeach
