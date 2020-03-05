@@ -94,11 +94,11 @@
                                 <label for="control-label">Rezolutie</label>
                                 <select name="rezolutie" id="" class="form-control">
                                     <option selected>NA</option>
-                                    <option value="hd-720p-(1mp)">HD 720p (1 Mp)</option>
-                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == 'full-hd-1080p-(2---2.4-mp)') selected @endif value="full-hd-1080p-(2--2.4-mp)">FULL HD 1080p (2 - 2.4 Mp)</option>
-                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == '4-megapixeli-(2K)') selected @endif value="4-megapixeli-(2K)">4 Megapixeli (2K)</option>
-                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == '5-megapixeli-(2K)') selected @endif value="5-megapixeli-(2K)">5 Megapixeli (2K) </option>
-                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == '8-megapixeli-(4K)') selected @endif value="8-megapixeli-(4K)">8 Megapixeli (4K) </option>
+                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == 'hd-720p-(1-mp)') selected @endif value="hd-720p-(1-mp)">HD 720p (1-Mp)</option>
+                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == 'full-hd-1080p-(2---2.4-mp)') selected @endif value="full-hd-1080p-(2---2.4-mp)">FULL HD 1080p (2 - 2.4 Mp)</option>
+                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == '4-megapixeli-(2k)') selected @endif value="4-megapixeli-(2k)">4 Megapixeli (2K)</option>
+                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == '5-megapixeli-(2k)') selected @endif value="5-megapixeli-(2k)">5 Megapixeli (2K) </option>
+                                    <option @if (isset($filters->rezolutie) && $filters->rezolutie == '8-megapixeli-(4k)') selected @endif value="8-megapixeli-(4k)">8 Megapixeli (4K) </option>
                                     
                                 </select>
                             </div>
