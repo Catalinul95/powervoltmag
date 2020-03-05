@@ -72,8 +72,13 @@
                             <span class="new-price">{{ $product->new_price }} lei</span>
                         </div>
                         <div class="buttons">
-                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-shopping-cart"></i> Adauga in Cos</a>
-                            <a href="{{ route('products.show', ['category' => $product->category->slug, 'product' => $product->slug]) }}" class="btn btn-info btn-sm">Detalii</a>
+                            @if (\App\Cart::hasItem($product->id))
+                                <button class="btn btn-danger btn-sm addToCartButton" data-id="{{ $product->id }}"><i class="fas fa-trash"></i> <span>Elimina din Cos</span></button>
+                            @else
+                                <button class="btn btn-danger btn-sm addToCartButton" data-id="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> <span>Adauga in Cos</span></button>
+                            @endif
+                            
+                            <a href="{{ route('products.show', ['category' => $category->slug, 'product' => $product->slug]) }}" class="btn btn-info btn-sm">Detalii</a>
                         </div>
                     </div>
                 @endforeach
@@ -90,4 +95,34 @@
 
 @section('scripts')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+    <script>
+        $('.addToCartButton').click(function (e) {
+            var productId = $(this).data('id');
+            var self = this;
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('cart.store') }}",
+                data: {'id': productId, "_token": "{{ csrf_token() }}",},
+                success: function (response) {
+                    var child = $(self).children()[0];
+                    var child1 = $(self).children()[1];
+
+                    if ($(child).attr('class') == 'fas fa-trash') {
+                        $(child).attr('class', 'fas fa-shopping-cart');
+                        $(child1).text('Adauga in Cos');
+                    } else {
+                        $(child).attr('class', 'fas fa-trash');
+                        $(child1).text('Elimina din Cos');
+                    }
+
+                    console.log(response);
+
+                    $('.cartItems').text(response.itemsCount);
+                },
+                dataType: 'json',
+            });
+        });
+    </script>
 @endsection
