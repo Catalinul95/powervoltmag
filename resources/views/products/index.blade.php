@@ -256,9 +256,9 @@
                     </div>
                     <div class="buttons">
                         @if (\App\Cart::hasItem($product->id))
-                            <button class="btn btn-danger btn-sm addToCartButton" data-id="{{ $product->id }}"><i class="fas fa-trash"></i> <span>Elimina din Cos</span></button>
+                            <button class="btn btn-danger btn-sm addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-trash"></i> <span>Elimina din Cos</span></button>
                         @else
-                            <button class="btn btn-danger btn-sm addToCartButton" data-id="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> <span>Adauga in Cos</span></button>
+                            <button class="btn btn-danger btn-sm addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> <span>Adauga in Cos</span></button>
                         @endif
                         
                         <a href="{{ route('products.show', ['category' => $category->slug, 'product' => $product->slug]) }}" class="btn btn-info btn-sm">Detalii</a>
@@ -321,12 +321,50 @@
                     if ($(child).attr('class') == 'fas fa-trash') {
                         $(child).attr('class', 'fas fa-shopping-cart');
                         $(child1).text('Adauga in Cos');
+
+                        $('.product-car-item' + productId).remove();
                     } else {
                         $(child).attr('class', 'fas fa-trash');
                         $(child1).text('Elimina din Cos');
+                        $('.no-item-message').css('display', 'none');
                     }
 
-                    console.log(response);
+                    if (response.itemsCount == 0) {
+                        $('.no-item-message').css('display', 'block');
+                    }
+
+                    $('.cartItems').text(response.itemsCount);
+                },
+                dataType: 'json',
+            });
+        });
+
+        $('.smallIconRemoveFromCart').click(function (e) {
+            var productId = $(this).data('id');
+            var self = this;
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('cart.store') }}",
+                data: {'id': productId, "_token": "{{ csrf_token() }}",},
+                success: function (response) {   
+                    var product = $('.product' + productId);
+                    var child = $(product).children()[0];
+                    var child1 = $(product).children()[1];
+
+                    if ($(child).attr('class') == 'fas fa-trash') {
+                        $(child).attr('class', 'fas fa-shopping-cart');
+                        $(child1).text('Adauga in Cos');
+                    } else {
+                        $(child).attr('class', 'fas fa-trash');
+                        $(child1).text('Elimina din Cos');
+                        $('.no-item-message').css('display', 'none');
+                    }
+
+                    if (response.itemsCount == 0) {
+                        $('.no-item-message').css('display', 'block');
+                    }
+
 
                     $('.cartItems').text(response.itemsCount);
                 },
@@ -335,3 +373,4 @@
         });
     </script>
 @endsection
+

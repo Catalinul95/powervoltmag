@@ -11,8 +11,10 @@ class Cart
         if (Cart::isSet()) {
             $cart = json_decode(Cookie::get('cart'), true);
 
-            if (in_array($id, $cart)) {
-                return true;
+            foreach ($cart as $item) {
+                if ($item['id'] == $id) {
+                    return true;
+                }
             }
         }
 
@@ -33,5 +35,19 @@ class Cart
         }
 
         return count($cart);
+    }
+
+    public static function getItems()
+    {
+        $cart = json_decode(Cookie::get('cart'), true);
+
+        return $cart;
+    }
+
+    public static function deleteCart()
+    {
+        Cookie::queue(
+            Cookie::forget('cart')
+        );
     }
 }

@@ -3,6 +3,13 @@ body {
   position: relative;
 }
 
+@media (max-width: 576px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .btn-danger {
   background-color: red !important;
   border-color: red;
@@ -51,30 +58,27 @@ body {
   border: 1px solid #eee;
 }
 
-.nextArrow,
-.prevArrow {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  position: absolute;
-  top: 50%;
-  cursor: pointer;
+.dropdown-item {
+  position: relative;
+}
+
+.dropdown-item:focus {
+  background-color: #fff;
+}
+
+.smallIconRemoveFromCart {
+  display: flex;
+  justify-content: flex-end;
+  width: auto;
   z-index: 9999;
 }
 
-.nextArrow i,
-.prevArrow i {
-  color: #222;
-  font-size: 3rem;
-  opacity: 0.8;
+.smallIconRemoveFromCart i {
+  color: #ccc;
 }
 
-.prevArrow {
-  left: 0px;
-}
-
-.nextArrow {
-  right: 0px;
+.smallIconRemoveFromCart i:hover {
+  color: red;
 }
 
 .products-card,
@@ -85,6 +89,16 @@ body {
   background-color: #fff;
   margin-top: 3rem;
   border: none;
+}
+
+@media (max-width: 576px) {
+  .products-card,
+  .categories-card,
+  .login-card,
+  .register-card {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
 }
 
 .details-bar {

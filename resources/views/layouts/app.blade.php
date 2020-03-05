@@ -40,8 +40,28 @@
                         <span>{{ App\Cart::countItems() }}</span>
                     </span> Cosul Meu
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                    @if (App\Cart::countItems())
+                        @foreach (App\Cart::getItems() as $product)
+                            <div class="dropdown-item product-car-item{{$product['id']}}">
+                                <span class="addToCartButton smallIconRemoveFromCart" data-id="{{ $product['id'] }}"><i class="fas fa-trash" aria-hidden="true"></i></span>
+                                <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="{{ Storage::url('/' . $product['image']) }}" style="width: 50px; height: 50px;">
+                                        </div>
+                                        <div class="col-md-9" style="width: 350px;">
+                                            <div class="d-flex flex-column">
+                                                <span style=" white-space: pre-wrap; font-weight: 500;">{{ $product['title'] }}</span>
+                                                <p>1 X {{ $product['price'] }}</p>
+                                            </div>
+                                        </div>      
+                                    </div> 
+                                </a>      
+                            </div>
+                        @endforeach
+                    @endif
+                        <p class="dropdown-item no-item-message" @if (App\Cart::countItems()) style="display: none;" @endif>Cosul tau este gol.</p>
+                        @php $product = null @endphp
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-item">
                         <a class="btn btn-danger btn-block btn-sm" href="#">Cosul Meu</a>
@@ -56,7 +76,7 @@
 
         @yield('hero')
 
-        <main class="py-4">
+        <main class="py-md-4 py-sm-0">
             @yield('content')
         </main>
 
@@ -152,7 +172,10 @@
         $(document).ready(function(){
             $('.slider').slick({
                 nextArrow: '<button class="nextArrow"><i class="fas fa-chevron-right"></i></button>',
-                prevArrow: '<button class="prevArrow"><i class="fas fa-chevron-left"></i></button>'
+                prevArrow: '<button class="prevArrow"><i class="fas fa-chevron-left"></i></button>',
+                arrows: false,
+                infinite: true,
+                autoplay: true,
             });
         });
 
