@@ -65,7 +65,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 price-details">
-                                <p class="old-price">{{ $product->old_price }} Lei</p>
+                                @if ($product->old_price) <p class="old-price">{{ $product->old_price }} Lei</p> @endif
                                 <p class="new-price">{{ $product->new_price }} Lei</p>
                                 <p class="stock-status">In stoc <i class="fas fa-thumbs-up"></i></p>
                             </div>

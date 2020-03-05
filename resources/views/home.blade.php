@@ -68,7 +68,7 @@
                             <img src="{{ Storage::url('/' . $product->getImages()[0]) }}">
                         <h2>{{ $product->title }}</h2>
                         <div class="price">
-                            <span class="old-price">{{ $product->old_price }} lei</span>
+                            @if ($product->old_price) <span class="old-price">{{ $product->old_price }} lei</span> @endif
                             <span class="new-price">{{ $product->new_price }} lei</span>
                         </div>
                         <div class="buttons">
