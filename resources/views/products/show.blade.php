@@ -37,13 +37,11 @@
         <div class="col-md-9">
           <div class="card products-card products-page-card">
             <div class="card-header products-page-card-header">
-                <a href="#"><i class="fa fa-home" aria-hidden="true"></i></a>
+                <a href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
                 <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                <a href="#">Produse</a>
+                <a href="/{{ $category->slug }}">{{ $category->name }}</a>
                 <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                <a href="#">Camere de supraveghere interior</a>
-                <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                <a href="#">Masina T208 2 MP</a>
+                <a href="/{{ $category->slug }}/{{ $product->slug }}">{{ $product->title }}</a>
             </div>
             <div class="card-body">
                 <div class="row product-details">
