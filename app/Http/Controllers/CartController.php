@@ -20,6 +20,8 @@ class CartController extends Controller
             return response()->json(['error' => 'Product not found.'], 404);
         }
 
+        $totalPrice = 0;
+
         if (!Cookie::get('cart')) {
             $cart = [];
             $cart[] = [
@@ -27,7 +29,8 @@ class CartController extends Controller
                 'title' => $product->title,
                 'code' => $product->code,
                 'price' => $product->new_price,
-                'image' => $product->getImages()[0],
+                'imageWithUrl' => \Storage::url('/'. $product->getImages()[0]),
+                'image' => $product->getImages()[0]
             ];
             $cart = json_encode($cart);
             Cookie::queue(Cookie::make('cart', $cart, 500));
@@ -42,22 +45,30 @@ class CartController extends Controller
                     'title' => $product->title,
                     'code' => $product->code,
                     'price' => $product->new_price,
-                    'image' => $product->getImages()[0],
+                    'imageWithUrl' => \Storage::url('/'. $product->getImages()[0]),
+                    'image' => $product->getImages()[0]
                 ];
+                foreach ($cart as $item) {
+                    $totalPrice += $item['price'];
+                }
+
                 $itemsCount = count($cart);
                 $cart = json_encode($cart);
                 Cookie::queue(Cookie::make('cart', $cart, 500));
-                return response()->json(['cart' => $cart, 'itemsCount' => $itemsCount, 'message' => 'The item has been added.', 'code' => 200], 200);
+                return response()->json(['cart' => $cart, 'itemsCount' => $itemsCount, 'totalPrice' => $totalPrice, 'message' => 'The item has been added.', 'code' => 200], 200);
             } else {
                 foreach ($cart as $key => $item) {
                     if ($item['id'] == $product->id) {
                         unset($cart[$key]);
                     }
                 }
+                foreach ($cart as $item) {
+                    $totalPrice += $item['price'];
+                }
                 $itemsCount = count($cart);
                 $cart = json_encode($cart);
                 Cookie::queue(Cookie::make('cart', $cart, 500));
-                return response()->json(['cart' => $cart, 'itemsCount' => $itemsCount, 'message' => 'The item has been deleted.', 'code' => 202], 202);
+                return response()->json(['cart' => $cart, 'itemsCount' => $itemsCount, 'totalPrice' => $totalPrice,  'message' => 'The item has been deleted.', 'code' => 202], 202);
             }
             
         }

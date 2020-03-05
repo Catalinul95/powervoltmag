@@ -10,12 +10,13 @@
     <title>PowerVoltMag.ro | Camere de securitate | Instalari sisteme de securitate</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top py-3">
             <div class="container">
             <a class="navbar-brand" href="/">PowerVolatMag.ro</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,26 +41,28 @@
                         <span>{{ App\Cart::countItems() }}</span>
                     </span> Cosul Meu
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    @if (App\Cart::countItems())
-                        @foreach (App\Cart::getItems() as $product)
-                            <div class="dropdown-item product-cart-item{{$product['id']}}">
-                                <span class="smallIconRemoveFromCart" data-id="{{ $product['id'] }}"><i class="fas fa-trash" aria-hidden="true"></i></span>
-                                <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <img src="{{ Storage::url('/' . $product['image']) }}" style="width: 50px; height: 50px;">
-                                        </div>
-                                        <div class="col-md-9" style="width: 350px;">
-                                            <div class="d-flex flex-column">
-                                                <span style=" white-space: pre-wrap; font-weight: 500;">{{ $product['title'] }}</span>
-                                                <p>1 X {{ $product['price'] }}</p>
-                                            </div>
-                                        </div>      
-                                    </div> 
-                                </a>      
-                            </div>
-                        @endforeach
-                    @endif
+                        <div class="dropdown-wrapper">
+                            @if (App\Cart::countItems())
+                                @foreach (App\Cart::getItems() as $product)
+                                    <div class="dropdown-item product-cart-item{{$product['id']}}">
+                                        <span class="smallIconRemoveFromCart" data-id="{{ $product['id'] }}"><i class="fas fa-trash" aria-hidden="true"></i></span>
+                                        <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <img src="{{ Storage::url('/' . $product['image']) }}" style="width: 50px; height: 50px;">
+                                                </div>
+                                                <div class="col-md-9" style="width: 350px;">
+                                                    <div class="d-flex flex-column">
+                                                        <span style=" white-space: pre-wrap; font-weight: 500;">{{ $product['title'] }}</span>
+                                                        <p>1 X <strong>{{ $product['price'] }}</strong></p>
+                                                    </div>
+                                                </div>      
+                                            </div> 
+                                        </a>      
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
                         <p class="dropdown-item no-item-message" @if (App\Cart::countItems()) style="display: none;" @endif>Cosul tau este gol.</p>
                         @php $product = null @endphp
                         <div class="dropdown-divider"></div>
@@ -148,6 +151,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a5271ecd44.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
         $('#categoriesButton').click(function (e) {
             if ($($(this).children()[0]).hasClass('fas fa-chevron-down')) {
@@ -186,7 +190,7 @@
             var dropdowns = $('.custom-dropdown');
 
             if ($(dropdown).css('display') == 'block') {
-            $(dropdown).css('display', 'none');
+                $(dropdown).css('display', 'none');
             } else {
             for (var i = 0; i < dropdowns.length; i++) {
                 $(dropdowns[i]).css('display', 'none');

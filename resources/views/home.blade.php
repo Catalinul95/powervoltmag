@@ -106,6 +106,7 @@
                 url: "{{ route('cart.store') }}",
                 data: {'id': productId, "_token": "{{ csrf_token() }}",},
                 success: function (response) {
+
                     var child = $(self).children()[0];
                     var child1 = $(self).children()[1];
 
@@ -114,10 +115,36 @@
                         $(child1).text('Adauga in Cos');
 
                         $('.product-cart-item' + productId).remove();
+                        toastr.error("Produsul a fost eliminat din cos. Valore cos: " + response.totalPrice + ' Lei');
                     } else {
                         $(child).attr('class', 'fas fa-trash');
                         $(child1).text('Elimina din Cos');
                         $('.no-item-message').css('display', 'none');
+
+                        var lastItem = JSON.parse(response.cart);
+                        lastItem = lastItem[lastItem.length - 1];
+
+                        var cartItem = `<div class="dropdown-item product-cart-item${lastItem.id}">
+                                <span class="smallIconRemoveFromCart" data-id="${lastItem.id}"><i class="fas fa-trash" aria-hidden="true"></i></span>
+                                <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="${lastItem.imageWithUrl}" style="width: 50px; height: 50px;">
+                                        </div>
+                                        <div class="col-md-9" style="width: 350px;">
+                                            <div class="d-flex flex-column">
+                                                <span style=" white-space: pre-wrap; font-weight: 500;">${lastItem.title}</span>
+                                                <p class="new_price">1 X <strong>${lastItem.price} Lei</strong></p>
+                                            </div>
+                                        </div>      
+                                    </div> 
+                                </a>      
+                            </div>`;
+
+                        $('.dropdown-wrapper').append(cartItem);
+
+                        toastr.success("Produsul a fost adaugat in cos. Valore cos: " + response.totalPrice + ' Lei');
+
                     }
 
                     if (response.itemsCount == 0) {
@@ -130,7 +157,7 @@
             });
         });
 
-        $('.smallIconRemoveFromCart').click(function (e) {
+        $(document).on('click', '.smallIconRemoveFromCart', function (e) {
             var productId = $(this).data('id');
             var self = this;
 
@@ -147,10 +174,12 @@
                         $(child).attr('class', 'fas fa-shopping-cart');
                         $(child1).text('Adauga in Cos');
                         $('.product-cart-item' + productId).remove();
+                        toastr.error("Produsul a fost eliminat din cos. Valore cos: " + response.totalPrice + ' Lei');
                     } else {
                         $(child).attr('class', 'fas fa-trash');
                         $(child1).text('Elimina din Cos');
                         $('.no-item-message').css('display', 'none');
+                        toastr.success("Produsul a fost adaugat in cos. Valore cos: " + response.totalPrice + ' Lei');
                     }
 
                     if (response.itemsCount == 0) {

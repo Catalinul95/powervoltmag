@@ -1,6 +1,8 @@
 body {
   background-color: #f5f5f5;
   position: relative;
+  min-height: 75rem;
+  padding-top: 4.5rem;
 }
 
 @media (max-width: 576px) {
@@ -59,11 +61,16 @@ body {
   border: 1px solid #eee;
 }
 
+.dropdown-wrapper {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
 .dropdown-item {
   position: relative;
 }
 
-.dropdown-item:focus {
+.dropdown-item:active {
   background-color: #fff;
 }
 
