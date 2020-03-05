@@ -124,7 +124,7 @@
                                     <option @if (isset($filters->{"tip-camera"}) && $filters->{"tip-camera"} == 'dome') selected @endif  value="dome">Dome</option>
                                     <option @if (isset($filters->{"tip-camera"}) && $filters->{"tip-camera"} == 'bullet') selected @endif  value="bullet">Bullet</option>
                                     <option @if (isset($filters->{"tip-camera"}) && $filters->{"tip-camera"} == 'speed-demo') selected @endif  value="speed-dome">Speed dome</option>
-                                    <option @if (isset($filters->{"infrarosu"}) && $filters->{"tip-camera"} == 'zoom-motorizat') selected @endif  value="zoom-motorizat">Zoom motorizat</option>  
+                                    <option @if (isset($filters->{"tip-camera"}) && $filters->{"tip-camera"} == 'zoom-motorizat') selected @endif  value="zoom-motorizat">Zoom motorizat</option>  
                                 </select>
                             </div>
 
