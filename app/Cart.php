@@ -26,6 +26,12 @@ class Cart
 
     public static function countItems()
     {
-        return count($cart = json_decode(Cookie::get('cart'), true));
+        $cart = json_decode(Cookie::get('cart'), true);
+
+        if (!$cart) {
+            return 0;
+        }
+
+        return count($cart);
     }
 }
