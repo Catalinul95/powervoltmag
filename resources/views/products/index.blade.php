@@ -50,6 +50,7 @@
                 </ul>
             </div>
         </div>
+        @if (count($products))
         <div class="card categories-card">
             <div class="card-header categories-card-header" id="filtersButton">
                 Filtreaza dupa <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -232,17 +233,19 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
     <div class="col-md-9 products-wrapper">
         
         <div class="products-callus hideMobile">
-            <a href="#" class="btn btn-warning font-weight-bold"><i class="fas fa-question-circle"></i> Comanda si te contactam noi: 0725391572</a>
+            <a href="#" class="btn btn-warning font-weight-bold"><i class="fas fa-question-circle"></i> Comanda si te contactam noi: 07XXXXXXXX</a>
         </div>
         <div class="card products-card">
             <div class="card-header products-card-header">
                 <img src="/images/camerax.png"> Lista Produse
             </div>
             <div class="card-body products-card-body">
+            @if (count($products))
                 @foreach ($products as $product)
                 <div class="product">
                         <img src="{{ Storage::url('/' . $product->getImages()[0]) }}">
@@ -252,11 +255,19 @@
                         <span class="new-price">{{ $product->new_price }} lei</span>
                     </div>
                     <div class="buttons">
-                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-shopping-cart"></i> Adauga in Cos</a>
+                        @if (\App\Cart::hasItem($product->id))
+                            <button class="btn btn-danger btn-sm addToCartButton" data-id="{{ $product->id }}"><i class="fas fa-trash"></i> <span>Elimina din Cos</span></button>
+                        @else
+                            <button class="btn btn-danger btn-sm addToCartButton" data-id="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> <span>Adauga in Cos</span></button>
+                        @endif
+                        
                         <a href="{{ route('products.show', ['category' => $category->slug, 'product' => $product->slug]) }}" class="btn btn-info btn-sm">Detalii</a>
                     </div>
                 </div>
                 @endforeach
+            @else 
+                <p>Momentan nu exista produse adaugate.</p>
+            @endif
             </div>
         </div>
     </div>
@@ -294,5 +305,33 @@
 
            
         })
+
+        $('.addToCartButton').click(function (e) {
+            var productId = $(this).data('id');
+            var self = this;
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('cart.store') }}",
+                data: {'id': productId, "_token": "{{ csrf_token() }}",},
+                success: function (response) {
+                    var child = $(self).children()[0];
+                    var child1 = $(self).children()[1];
+
+                    if ($(child).attr('class') == 'fas fa-trash') {
+                        $(child).attr('class', 'fas fa-shopping-cart');
+                        $(child1).text('Adauga in Cos');
+                    } else {
+                        $(child).attr('class', 'fas fa-trash');
+                        $(child1).text('Elimina din Cos');
+                    }
+
+                    console.log(response);
+
+                    $('.cartItems').text(response.itemsCount);
+                },
+                dataType: 'json',
+            });
+        });
     </script>
 @endsection

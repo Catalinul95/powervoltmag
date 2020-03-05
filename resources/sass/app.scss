@@ -23,6 +23,35 @@ body {
     background-color: #fff !important;
 }
 
+.nav-link {
+    font-size: 1.1rem;
+}
+
+.cart-link {
+    position: relative;
+    cursor: pointer;
+    
+}
+
+.cartItems {
+    background-color: red;
+    color: #fff;
+    font-weight: bold;
+    font-size: .9rem;
+    position: absolute;
+    top: 2px;
+    left: 17px;
+    border-radius: 100%;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #eee;
+}
+
 .nextArrow,
 .prevArrow {
     border: 0;

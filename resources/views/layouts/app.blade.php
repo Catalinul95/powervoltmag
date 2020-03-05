@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>PowerVoltMag.ro | Camere de securitate | Instalari sisteme de securitate</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -17,7 +17,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
             <div class="container">
-            <a class="navbar-brand" href="/">Navbar</a>
+            <a class="navbar-brand" href="/">PowerVolatMag.ro</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,8 +34,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contul Meu</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Cosul Meu</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link cart-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-shopping-cart" style="color: red;"></i> <span class="cartItems">
+                        <span>{{ App\Cart::countItems() }}</span>
+                    </span> Cosul Meu
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item">
+                        <a class="btn btn-danger btn-block btn-sm" href="#">Cosul Meu</a>
+                        </div>
+                    </div>
+                    </a>
                 </li>
                 </ul>
             </div>

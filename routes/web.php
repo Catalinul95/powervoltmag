@@ -18,6 +18,8 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::post('/add-to-cart.ajax', 'CartController@store')->name('cart.store');
 Route::get('/{category}/filtre/{filters?}', 'ProductsController@index')->name('products.index')->where('filters', '(.*)');
 Route::get('/{category}', 'ProductsController@index')->name('products.index');
 Route::get('/{category}/{product}', 'ProductsController@show')->name('products.show');
+

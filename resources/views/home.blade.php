@@ -62,6 +62,7 @@
                 <img src="images/camerax.png"> Cele Mai Recente Produse
             </div>
             <div class="card-body products-card-body">
+            @if (count($products))
                 @foreach ($products as $product)
                     <div class="product">
                             <img src="{{ Storage::url('/' . $product->getImages()[0]) }}">
@@ -76,6 +77,9 @@
                         </div>
                     </div>
                 @endforeach
+            @else 
+                <p>Momentan nu exista produse adaugate.</p>
+            @endif
             </div>
         </div>
     </div>
