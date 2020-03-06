@@ -75,21 +75,6 @@ body {
     background-color: #fff;
 }
 
-.smallIconRemoveFromCart {
-    display: flex;
-    justify-content: flex-end;
-    width: auto;
-    z-index: 9999;
-}
-
-.smallIconRemoveFromCart i {
-    color: #ccc;
-}
-
-.smallIconRemoveFromCart i:hover {
-    color: red;
-}
-
 .products-card,
 .categories-card,
 .login-card,
@@ -364,6 +349,11 @@ body {
 }
 
 .price .new-price {
+    color: #EA2027;
+    font-weight: bold;
+}
+
+.new-price {
     color: #EA2027;
     font-weight: bold;
 }

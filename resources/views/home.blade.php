@@ -69,7 +69,7 @@
                         <h2>{{ $product->title }}</h2>
                         <div class="price">
                             @if ($product->old_price) <span class="old-price">{{ $product->old_price }} lei</span> @endif
-                            <span class="new-price">{{ $product->new_price }} lei</span>
+                            <span class="new-price">{{ $product->new_price }} Ron</span>
                         </div>
                         <div class="buttons">
                             @if (\App\Cart::hasItem($product->id))
@@ -97,100 +97,15 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
     <script>
-        $('.addToCartButton').click(function (e) {
-            var productId = $(this).data('id');
-            var self = this;
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('cart.store') }}",
-                data: {'id': productId, "_token": "{{ csrf_token() }}",},
-                success: function (response) {
-
-                    var child = $(self).children()[0];
-                    var child1 = $(self).children()[1];
-
-                    if ($(child).attr('class') == 'fas fa-trash') {
-                        $(child).attr('class', 'fas fa-shopping-cart');
-                        $(child1).text('Adauga in Cos');
-
-                        $('.product-cart-item' + productId).remove();
-                        toastr.error("Produsul a fost eliminat din cos. Valore cos: " + response.totalPrice + ' Lei');
-                    } else {
-                        $(child).attr('class', 'fas fa-trash');
-                        $(child1).text('Elimina din Cos');
-                        $('.no-item-message').css('display', 'none');
-
-                        var lastItem = JSON.parse(response.cart);
-                        lastItem = lastItem[lastItem.length - 1];
-
-                        var cartItem = `<div class="dropdown-item product-cart-item${lastItem.id}">
-                                <span class="smallIconRemoveFromCart" data-id="${lastItem.id}"><i class="fas fa-trash" aria-hidden="true"></i></span>
-                                <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <img src="${lastItem.imageWithUrl}" style="width: 50px; height: 50px;">
-                                        </div>
-                                        <div class="col-md-9" style="width: 350px;">
-                                            <div class="d-flex flex-column">
-                                                <span style=" white-space: pre-wrap; font-weight: 500;">${lastItem.title}</span>
-                                                <p class="new_price">1 X <strong>${lastItem.price} Lei</strong></p>
-                                            </div>
-                                        </div>      
-                                    </div> 
-                                </a>      
-                            </div>`;
-
-                        $('.dropdown-wrapper').append(cartItem);
-
-                        toastr.success("Produsul a fost adaugat in cos. Valore cos: " + response.totalPrice + ' Lei');
-
-                    }
-
-                    if (response.itemsCount == 0) {
-                        $('.no-item-message').css('display', 'block');
-                    }
-
-                    $('.cartItems').text(response.itemsCount);
-                },
-                dataType: 'json',
+        $(document).ready(function(){
+            $('.slider').slick({
+                nextArrow: '<button class="nextArrow"><i class="fas fa-chevron-right"></i></button>',
+                prevArrow: '<button class="prevArrow"><i class="fas fa-chevron-left"></i></button>',
+                arrows: false,
+                infinite: true,
+                autoplay: true,
             });
         });
 
-        $(document).on('click', '.smallIconRemoveFromCart', function (e) {
-            var productId = $(this).data('id');
-            var self = this;
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('cart.store') }}",
-                data: {'id': productId, "_token": "{{ csrf_token() }}",},
-                success: function (response) {   
-                    var product = $('.product' + productId);
-                    var child = $(product).children()[0];
-                    var child1 = $(product).children()[1];
-
-                    if ($(child).attr('class') == 'fas fa-trash') {
-                        $(child).attr('class', 'fas fa-shopping-cart');
-                        $(child1).text('Adauga in Cos');
-                        $('.product-cart-item' + productId).remove();
-                        toastr.error("Produsul a fost eliminat din cos. Valore cos: " + response.totalPrice + ' Lei');
-                    } else {
-                        $(child).attr('class', 'fas fa-trash');
-                        $(child1).text('Elimina din Cos');
-                        $('.no-item-message').css('display', 'none');
-                        toastr.success("Produsul a fost adaugat in cos. Valore cos: " + response.totalPrice + ' Lei');
-                    }
-
-                    if (response.itemsCount == 0) {
-                        $('.no-item-message').css('display', 'block');
-                    }
-
-
-                    $('.cartItems').text(response.itemsCount);
-                },
-                dataType: 'json',
-            });
-        });
     </script>
 @endsection

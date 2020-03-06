@@ -45,7 +45,6 @@
                             @if (App\Cart::countItems())
                                 @foreach (App\Cart::getItems() as $product)
                                     <div class="dropdown-item product-cart-item{{$product['id']}}">
-                                        <span class="smallIconRemoveFromCart" data-id="{{ $product['id'] }}"><i class="fas fa-trash" aria-hidden="true"></i></span>
                                         <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -54,7 +53,7 @@
                                                 <div class="col-md-9" style="width: 350px;">
                                                     <div class="d-flex flex-column">
                                                         <span style=" white-space: pre-wrap; font-weight: 500;">{{ $product['title'] }}</span>
-                                                        <p>1 X <strong>{{ $product['price'] }}</strong></p>
+                                                        <p>{{ $product['quantity'] }} X <strong>{{ $product['price'] }} Ron</strong></p>
                                                     </div>
                                                 </div>      
                                             </div> 
@@ -67,7 +66,7 @@
                         @php $product = null @endphp
                         <div class="dropdown-divider"></div>
                         <div class="dropdown-item">
-                        <a class="btn btn-danger btn-block btn-sm" href="#">Cosul Meu</a>
+                        <a class="btn btn-danger btn-block btn-sm" href="{{ route('cart.index') }}">Cosul Meu</a>
                         </div>
                     </div>
                     </a>
@@ -153,6 +152,11 @@
     <script src="https://kit.fontawesome.com/a5271ecd44.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
+        toastr.options.timeOut = 1000;
+        toastr.options.closeDuration = 300;
+        toastr.options.newestOnTop = false;
+        toastr.options.positionClass = 'toast-bottom-right';
+
         $('#categoriesButton').click(function (e) {
             if ($($(this).children()[0]).hasClass('fas fa-chevron-down')) {
                 $($(this).children()[0]).attr('class', 'fas fa-chevron-up');
@@ -173,34 +177,82 @@
             $('#filtersBody').toggle();
         });
 
-        $(document).ready(function(){
-            $('.slider').slick({
-                nextArrow: '<button class="nextArrow"><i class="fas fa-chevron-right"></i></button>',
-                prevArrow: '<button class="prevArrow"><i class="fas fa-chevron-left"></i></button>',
-                arrows: false,
-                infinite: true,
-                autoplay: true,
-            });
+        $('.category').click(function (e) {
+            if ($( window ).width() <= 750) {
+                var dropdown = $(this).children()[2];
+
+                var dropdowns = $('.custom-dropdown');
+
+                if ($(dropdown).css('display') == 'block') {
+                    $(dropdown).css('display', 'none');
+                } else {
+                for (var i = 0; i < dropdowns.length; i++) {
+                    $(dropdowns[i]).css('display', 'none');
+                }
+
+                $(dropdown).css('display', 'block');
+                $(this).css('background-color', '#fff');
+                }
+            }   
         });
 
-        $('.category').click(function (e) {
-        if ($( window ).width() <= 750) {
-            var dropdown = $(this).children()[2];
+        $('.addToCartButton').click(function (e) {
+            var productId = $(this).data('id');
+            var self = this;
 
-            var dropdowns = $('.custom-dropdown');
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('cart.store') }}",
+                data: {'id': productId, "_token": "{{ csrf_token() }}",},
+                success: function (response) {
 
-            if ($(dropdown).css('display') == 'block') {
-                $(dropdown).css('display', 'none');
-            } else {
-            for (var i = 0; i < dropdowns.length; i++) {
-                $(dropdowns[i]).css('display', 'none');
-            }
+                    var child = $(self).children()[0];
+                    var child1 = $(self).children()[1];
 
-            $(dropdown).css('display', 'block');
-            $(this).css('background-color', '#fff');
-            }
-        }
-        
+                    if ($(child).attr('class') == 'fas fa-trash') {
+                        $(child).attr('class', 'fas fa-shopping-cart');
+                        $(child1).text('Adauga in Cos');
+
+                        $('.product-cart-item' + productId).remove();
+                        toastr.error("Produsul a fost eliminat din cos. Valore cos: " + response.totalPrice + ' Lei');
+                    } else {
+                        $(child).attr('class', 'fas fa-trash');
+                        $(child1).text('Elimina din Cos');
+                        $('.no-item-message').css('display', 'none');
+
+                        var lastItem = JSON.parse(response.cart);
+                        lastItem = lastItem[lastItem.length - 1];
+
+                        var cartItem = `<div class="dropdown-item product-cart-item${lastItem.id}">
+                                <a href="#" class="btn-block" style="color: #222; text-decoration: none;">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <img src="${lastItem.imageWithUrl}" style="width: 50px; height: 50px;">
+                                        </div>
+                                        <div class="col-md-9" style="width: 350px;">
+                                            <div class="d-flex flex-column">
+                                                <span style=" white-space: pre-wrap; font-weight: 500;">${lastItem.title}</span>
+                                                <p class="new_price">1 X <strong>${lastItem.price} Lei</strong></p>
+                                            </div>
+                                        </div>      
+                                    </div> 
+                                </a>      
+                            </div>`;
+
+                        $('.dropdown-wrapper').append(cartItem);
+
+                        toastr.success("Produsul a fost adaugat in cos. Valore cos: " + response.totalPrice + ' Ron');
+
+                    }
+
+                    if (response.itemsCount == 0) {
+                        $('.no-item-message').css('display', 'block');
+                    }
+
+                    $('.cartItems').text(response.itemsCount);
+                },
+                dataType: 'json',
+            });
         });
     </script>
     @yield('scripts')

@@ -69,8 +69,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="product-tools">
-                                    <p><a href="#" class="btn btn-danger"><i class="fas fa-shopping-cart"></i> Adauga in Cos</a></p>
-                                    <p><a href="#" class="btn btn-secondary"><i class="fas fa-cog"></i> Vreau Instalare</a></p>
+                                    @if (\App\Cart::hasItem($product->id))
+                                    <button class="btn btn-danger mb-2 addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-trash"></i> <span>Elimina din Cos</span></button>
+                                    @else 
+                                    <button class="btn btn-danger mb-2 addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> <span>Adauga in Cos</span></button>
+                                    @endif
+                                    <button class="btn btn-secondary"><i class="fas fa-cog"></i> Vreau Instalare</a></button>
                                 </div>
                             </div>
                         </div>
@@ -103,11 +107,7 @@
     </div>
 @endsection
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/a5271ecd44.js" crossorigin="anonymous"></script>
+@section('scripts')
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
   <script>
     $('#categoriesButton').click(function (e) {
@@ -164,3 +164,5 @@
       });
   });
   </script>
+
+  @endsection

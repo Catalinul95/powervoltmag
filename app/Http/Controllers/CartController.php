@@ -10,6 +10,8 @@ class CartController extends Controller
 {
     public function store(Request $request)
     {
+        
+
         if (!$request->get('id')) {
             return response()->json(['error' => 'Invalid product.'], 400);
         }
@@ -22,6 +24,38 @@ class CartController extends Controller
 
         $totalPrice = 0;
 
+        if ($request->get('quantity') && $request->get('type') &&  Cookie::get('cart')) {
+            if ($request->type != 'increase' && $request->type != 'decrease') {
+                return response()->json([], 400);
+            }
+
+            $cart = Cookie::get('cart');
+            $cart = json_decode($cart, true);
+
+            foreach ($cart as $key =>$item) {
+                if ($cart[$key]['id'] == $product->id) {
+                    if ($request->type == 'increase') {
+                        $cart[$key]['quantity'] = $cart[$key]['quantity'] + 1;
+                    } else {
+                        $cart[$key]['quantity'] = $cart[$key]['quantity'] - 1;
+                    }
+
+                    if ($cart[$key]['quantity'] > $product->quantity) {
+                        return response()->json(['message' => 'Cantitatea e prea mare pentru acest produs.'], 400);
+                    }
+                   
+                }
+            }
+
+            $cart = json_encode($cart);
+            
+            Cookie::queue(Cookie::make('cart', $cart, 500));
+
+
+            return response()->json([], 200);
+        }
+            
+
         if (!Cookie::get('cart')) {
             $cart = [];
             $cart[] = [
@@ -30,7 +64,9 @@ class CartController extends Controller
                 'code' => $product->code,
                 'price' => $product->new_price,
                 'imageWithUrl' => \Storage::url('/'. $product->getImages()[0]),
-                'image' => $product->getImages()[0]
+                'image' => $product->getImages()[0],
+                'quantity' => 1,
+                'stock' => $product->quantity,
             ];
             $cart = json_encode($cart);
             Cookie::queue(Cookie::make('cart', $cart, 500));
@@ -46,11 +82,15 @@ class CartController extends Controller
                     'code' => $product->code,
                     'price' => $product->new_price,
                     'imageWithUrl' => \Storage::url('/'. $product->getImages()[0]),
-                    'image' => $product->getImages()[0]
+                    'image' => $product->getImages()[0],
+                    'quantity' => 1,
+                    'stock' => $product->quantity,
                 ];
                 foreach ($cart as $item) {
                     $totalPrice += $item['price'];
                 }
+
+                $totalPrice = number_format($totalPrice, 2);
 
                 $itemsCount = count($cart);
                 $cart = json_encode($cart);
@@ -65,6 +105,7 @@ class CartController extends Controller
                 foreach ($cart as $item) {
                     $totalPrice += $item['price'];
                 }
+                $totalPrice = number_format($totalPrice, 2);
                 $itemsCount = count($cart);
                 $cart = json_encode($cart);
                 Cookie::queue(Cookie::make('cart', $cart, 500));
@@ -72,9 +113,12 @@ class CartController extends Controller
             }
             
         }
+    }
 
-       
-
+    public function index()
+    {
+        $cart = \App\Cart::getItems();
         
+        return view('cart.index', ['cart' => $cart]);   
     }
 }
