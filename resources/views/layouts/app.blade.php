@@ -32,14 +32,28 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Acasa <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contul Meu</a>
+                <li class="nav-item @if(Auth::check())dropdown @endif">
+                    @if (!Auth::check())
+                        <a class="nav-link" href="/login">Contul Meu</a>
+                    @else 
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Contul Meu
+                        </a>
+                        <div class="dropdown-menu" aria-labelledBy="navbarDropdown2">
+                            <a href="#" class="dropdown-item">Profilul meu</a>
+                            <a href="#" class="dropdown-item">Comenzile mele</a>
+                            <a href="#" class="dropdown-item">Facturile mele</a>
+                            <a href="#" class="dropdown-item">Logout</a>
+                        </div>
+                        
+                    @endif
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link cart-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle cart-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-shopping-cart" style="color: red;"></i> <span class="cartItems">
                         <span>{{ App\Cart::countItems() }}</span>
                     </span> Cosul Meu
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="dropdown-wrapper">
                             @if (App\Cart::countItems())
@@ -69,7 +83,6 @@
                         <a class="btn btn-danger btn-block btn-sm" href="{{ route('cart.index') }}">Cosul Meu</a>
                         </div>
                     </div>
-                    </a>
                 </li>
                 </ul>
             </div>

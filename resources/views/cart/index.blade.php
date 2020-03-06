@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
                     <h1 class="mb-4"><i class="fas fa-shopping-cart"></i> Cosul meu de cumparaturi</h1>
-                    @if (!is_null($cart))
+                    @if (!is_null($cart) && count($cart))
                     <table class="table table-responsive">
                         <thead>
                             <tr>
@@ -96,6 +96,7 @@
                     if (response.itemsCount == 0) {
                         $('.no-item-message').css('display', 'block');
                         $('.dropdown-wrapper').css('display', 'none');
+                        window.location.href = '/';
                     }
                 }
             });

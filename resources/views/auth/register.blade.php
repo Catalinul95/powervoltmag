@@ -41,37 +41,42 @@
                 <a href="#">Creare Cont</a>
             </div>
             <div class="card-body">
-            <h1><i class="fas fa-user-plus"></i> Creare Cont</h1>
+                <h1><i class="fas fa-user-plus"></i> Creare Cont</h1>
                 <hr>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
                 <form action="{{ route('register') }}" method="POST">
                 @csrf
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">Nume</label>
+                        <label for="first_name">Nume</label>
                         <input type="text" name="first_name" class="form-control" id="inputEmail4" placeholder="Nume...">
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">Prenume</label>
+                        <label for="last_name">Prenume</label>
                         <input type="text" name="last_name" class="form-control" id="inputPassword4" placeholder="Prenume...">
                       </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="inputAddress">Email</label>
+                            <label for="email">Email</label>
                             <input type="email" name="email" class="form-control" id="inputAddress" placeholder="Email...">
                         </div>
                         <div class="form-group col-md-6">
-                          <label for="inputPassword4">Telefon</label>
+                          <label for="phone">Telefon</label>
                           <input type="text" name="phone" class="form-control" id="inputPassword4" placeholder="Numar telefon...">
                         </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                          <label for="inputAddress">Parola</label>
+                          <label for="password">Parola</label>
                           <input type="password" name="password" class="form-control" id="inputAddress" placeholder="Parola...">
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">Confirma Parola</label>
+                        <label for="password_confirmation">Confirma Parola</label>
                         <input type="password" name="password_confirmation" class="form-control" id="inputPassword4" placeholder="Confirma Parola...">
                       </div>
                   </div>
