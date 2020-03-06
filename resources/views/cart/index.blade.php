@@ -90,6 +90,13 @@
                 data: {'id': productId, "_token": "{{ csrf_token() }}",},
                 success: function (response) {
                     $(tr).remove();
+                    $('.product-cart-item' + productId).remove();
+                    $('.cartItems').text(response.itemsCount);
+
+                    if (response.itemsCount == 0) {
+                        $('.no-item-message').css('display', 'block');
+                        $('.dropdown-wrapper').css('display', 'none');
+                    }
                 }
             });
         });
