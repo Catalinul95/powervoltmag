@@ -52,6 +52,7 @@
                     @endif
                 </div>
             </div>
+            @if (isset($cart) && count($cart))
             <div class="card login-card">
                 <div class="card-header login-card-header">
                     Finalizare comanda
@@ -60,7 +61,9 @@
                     bla bla
                 </div>
             </div>
+            @endif
         </div>
+        @if (isset($cart) && count($cart))
         <div class="col-md-4">
             <div class="card login-card">
                 <div class="card-header login-card-header">Sumar Comanda</div>
@@ -78,6 +81,7 @@
                     </h5>
                 </div>
             </div>
+        @endif
         </div>
     </div>
 </div>
