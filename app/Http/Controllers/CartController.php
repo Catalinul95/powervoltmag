@@ -10,7 +10,6 @@ class CartController extends Controller
 {
     public function store(Request $request)
     {
-        
 
         if (!$request->get('id')) {
             return response()->json(['error' => 'Invalid product.'], 400);
@@ -47,12 +46,19 @@ class CartController extends Controller
                 }
             }
 
+            foreach ($cart as $item) {
+                $totalPrice += $item['price'] * $item['quantity'];
+            }
+
+            $totalPrice = number_format($totalPrice, 2);
+
+            
             $cart = json_encode($cart);
             
             Cookie::queue(Cookie::make('cart', $cart, 500));
 
 
-            return response()->json([], 200);
+            return response()->json(['cart' => $cart, 'totalPrice' => $totalPrice], 200);
         }
             
 
@@ -87,7 +93,7 @@ class CartController extends Controller
                     'stock' => $product->quantity,
                 ];
                 foreach ($cart as $item) {
-                    $totalPrice += $item['price'];
+                    $totalPrice += $item['price'] * $item['quantity'];
                 }
 
                 $totalPrice = number_format($totalPrice, 2);
@@ -103,9 +109,10 @@ class CartController extends Controller
                     }
                 }
                 foreach ($cart as $item) {
-                    $totalPrice += $item['price'];
+                    $totalPrice += $item['price'] * $item['quantity'];
                 }
                 $totalPrice = number_format($totalPrice, 2);
+
                 $itemsCount = count($cart);
                 $cart = json_encode($cart);
                 Cookie::queue(Cookie::make('cart', $cart, 500));

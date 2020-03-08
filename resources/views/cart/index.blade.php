@@ -52,6 +52,14 @@
                     @endif
                 </div>
             </div>
+            <div class="card login-card">
+                <div class="card-header login-card-header">
+                    Finalizare comanda
+                </div>
+                <div class="card-body">
+                    bla bla
+                </div>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="card login-card">
@@ -60,12 +68,12 @@
                     <h5>Cost Livrare: <strong style="color: #EA2027;">15.00 Ron</strong></h5>
                     <hr>
                     <h5>
-                        <span>TOTAL( TVA inclus ):</span> <strong style="color: #EA2027;">
+                        <span>TOTAL( TVA inclus ):</span> <strong style="color: #EA2027;" id="totalPrice">
                             @php $total = 0; @endphp
                             @foreach ($cart as $key => $item)
                                 @php $total += $item['price'] * $item['quantity']; @endphp
                             @endforeach
-                            {{ number_format($total + ( $total / 100 * 19), 2) }}
+                            {{ number_format($total, 2) }}
                         </strong>
                     </h5>
                 </div>
@@ -92,6 +100,10 @@
                     $(tr).remove();
                     $('.product-cart-item' + productId).remove();
                     $('.cartItems').text(response.itemsCount);
+
+                    if (response.totalPrice) {
+                        $('#totalPrice').text(response.totalPrice);
+                    }
 
                     if (response.itemsCount == 0) {
                         $('.no-item-message').css('display', 'block');
@@ -138,6 +150,10 @@
                     $(input).val(Number(quantity) + 1);
 
                     $(priceTd).text( (Number((Number(quantity) + 1) * Number(price)).toFixed(2)) + " Ron");
+
+                    if (response.totalPrice) {
+                        $('#totalPrice').text(response.totalPrice);
+                    }
                 }
             });
         });
@@ -158,12 +174,13 @@
             }
             quantity = Number(quantity);
 
-            if (quantity < 0) {
-                location.reload();
+            
+            if ((quantity - 1) < 0) {
+                return;
             }
 
-            if (quantity == 0) {
-                $(tr).remove();
+            if ((quantity - 1) == 0) {
+                return;
             }
 
             $.ajax({
@@ -174,10 +191,12 @@
                     $(input).val(Number(quantity) - 1);
 
                     $(priceTd).text( (Number((Number(quantity) - 1) * Number(price)).toFixed(2)) + " Ron");
+
+                    if (response.totalPrice) {
+                        $('#totalPrice').text(response.totalPrice);
+                    }
                 }
             });
-
-            console.log(input);
         });
     </script>
 @endsection
