@@ -58,7 +58,78 @@
                     Finalizare comanda
                 </div>
                 <div class="card-body">
-                    bla bla
+                    @if (!Auth::guest())
+                    <form action="#" method="POST" autocomplete="off">
+                        @csrf
+                        <div class="form-group">
+                            <label for="company_name">Nume Firma</label>
+                            <input type="text" name="company_name" class="form-control" aria-describedby="emailHelp" placeholder="Numele firmei...">
+                        </div>
+                        <div class="form-group">
+                            <label for="fiscal_code">Cod fiscal</label>
+                            <input type="text" name="fiscal_code" class="form-control" aria-describedby="emailHelp" placeholder="Cod fiscal...">
+                        </div>
+                        <div class="form-group">
+                            <label for="register_number">Nr.inregistrare</label>
+                            <input type="text" name="register_number" class="form-control" aria-describedby="emailHelp" placeholder="Numar inregistrare...">
+                        </div>
+                        <div class="form-group">
+                            <label for="bank">Banca</label>
+                            <input type="text" name="bank" class="form-control" aria-describedby="emailHelp" placeholder="Banca...">
+                        </div>
+                        <div class="form-group">
+                            <label for="iban">IBAN</label>
+                            <input type="text" name="iban" class="form-control"aria-describedby="emailHelp" placeholder="IBAN...">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="judet_company">Judetul sediului firmei</label>
+                                <select name="judet" id="" class="form-control">
+                                    <option value="">Alege judetul..</option>
+                                    @foreach ($judete as $judet)
+                                        <option value="{{ $judet['auto'] }}|{{ $judet['nume'] }}">{{ $judet['nume'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                            <label for="localitate_company">Localitate sediului firmei</label>
+                            <select name="judet" id="" class="form-control">
+                                    <option value="">Alege localitatea..</option>
+                                    @foreach ($orase as $oras)
+                                        <option value="{{ $oras['nume'] }}">{{ $oras['nume'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="postal_code_company">Cod Postal</label>
+                            <input type="text" name="postal_code" class="form-control" aria-describedby="emailHelp" placeholder="Cod postal...">
+                        </div>
+                        <div class="form-group">
+                            <label for="company_address">Adresa sediului firmei</label>
+                            <input type="text" name="company_address" class="form-control"aria-describedby="emailHelp" placeholder="Adresa sediului firmei...">
+                        </div>
+                        <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="first_name">Nume</label>
+                            <input type="text" name="first_name" class="form-control" id="inputEmail4" placeholder="Nume..." value="{{ $user->first_name }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="last_name">Prenume</label>
+                            <input type="text" name="last_name" class="form-control" id="inputPassword4" placeholder="Prenume..." value="{{ $user->last_name }}">
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="agree">
+                            <label for="agree">Sunt de acord cu <a href="#">Termenii si conditile</a></label>   
+                        </div>
+                        <button class="btn btn-success">Trimite comanda!</button>  
+                    </form>
+                    @else 
+                        <p>Pentru a putea finaliza comanda este necesar un cont.</p>
+                        <a href="/login" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Autentificare</a>
+                        <a href="/register" class="btn btn-primary"><i class="fas fa-user-plus"></i> Inregistrare</a>
+                    @endif
                 </div>
             </div>
             @endif

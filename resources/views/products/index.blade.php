@@ -254,6 +254,7 @@
                          @if ($product->old_price) <span class="old-price">{{ $product->old_price }} Lei</span> @endif
                         <span class="new-price">{{ $product->new_price }} Ron</span>
                     </div>
+                    <p style="margin: 0 auto;"><small>Pretul contine TVA</small></p>
                     <div class="buttons">
                         @if (\App\Cart::hasItem($product->id))
                             <button class="btn btn-danger btn-sm addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-trash"></i> <span>Elimina din Cos</span></button>
@@ -280,6 +281,16 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
     <script>
+        $(document).ready(function(){
+            $('.slider').slick({
+                nextArrow: '<button class="nextArrow"><i class="fas fa-chevron-right"></i></button>',
+                prevArrow: '<button class="prevArrow"><i class="fas fa-chevron-left"></i></button>',
+                arrows: false,
+                infinite: true,
+                autoplay: true,
+            });
+        });
+        
         $('select').change(function (e) {
             var name = $(this).attr('name');
             var value = $(this).val();

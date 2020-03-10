@@ -40,10 +40,13 @@
                             Contul Meu
                         </a>
                         <div class="dropdown-menu" aria-labelledBy="navbarDropdown2">
-                            <a href="#" class="dropdown-item">Profilul meu</a>
+                            <a href="{{ route('members.index') }}" class="dropdown-item">Profilul meu</a>
                             <a href="#" class="dropdown-item">Comenzile mele</a>
                             <a href="#" class="dropdown-item">Facturile mele</a>
-                            <a href="#" class="dropdown-item">Logout</a>
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
+                                @csrf
+                                <button class="btn btn-secondary">Logout</button>
+                            </form>
                         </div>
                         
                     @endif

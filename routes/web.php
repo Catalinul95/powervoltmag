@@ -22,6 +22,9 @@ Route::post('/add-to-cart.ajax', 'CartController@store')->name('cart.store');
 
 Route::get('/cos-de-cumparaturi', 'CartController@index')->name('cart.index');
 
+Route::get('/contul-meu', 'MembersController@index')->name('members.index');
+Route::patch('/contul-meu', 'MembersController@update')->name('members.update');
+
 Route::get('/{category}/filtre/{filters?}', 'ProductsController@index')->name('products.index')->where('filters', '(.*)');
 Route::get('/{category}', 'ProductsController@index')->name('products.index');
 Route::get('/{category}/{product}', 'ProductsController@show')->name('products.show');

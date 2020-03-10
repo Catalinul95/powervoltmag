@@ -15,6 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //dd(\Hash::make('catalin99'));
+
         //\Cookie::queue('cart', null));
         $categories = Category::parentCategories()->get();
         $products = Product::get();

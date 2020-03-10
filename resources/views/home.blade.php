@@ -71,13 +71,13 @@
                             @if ($product->old_price) <span class="old-price">{{ $product->old_price }} lei</span> @endif
                             <span class="new-price">{{ $product->new_price }} Ron</span>
                         </div>
+                        <p style="margin: 0 auto;"><small>Pretul contine TVA</small></p>
                         <div class="buttons">
                             @if (\App\Cart::hasItem($product->id))
                                 <button class="btn btn-danger btn-sm addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-trash"></i> <span>Elimina din Cos</span></button>
                             @else
                                 <button class="btn btn-danger btn-sm addToCartButton product{{$product->id}}" data-id="{{ $product->id }}"><i class="fas fa-shopping-cart"></i> <span>Adauga in Cos</span></button>
                             @endif
-                            
                             <a href="{{ route('products.show', ['category' => $product->category->slug, 'product' => $product->slug]) }}" class="btn btn-info btn-sm">Detalii</a>
                         </div>
                     </div>

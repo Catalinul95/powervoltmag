@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
+
+use Auth;
 use Cookie;
+use App\User;
+use App\Product;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -125,7 +129,16 @@ class CartController extends Controller
     public function index()
     {
         $cart = \App\Cart::getItems();
+
+        $client = new Client(['verify' => false]);
+        $res1 = $client->request('GET', 'https://roloca.coldfuse.io/judete');
+        $res2 = $client->request('GET', 'https://roloca.coldfuse.io/orase');
+
+        $judete = json_decode($res1->getBody(), true);
+        $orase = json_decode($res2->getBody(), true);
+        $user = User::find(Auth::user()->id);
         
-        return view('cart.index', ['cart' => $cart]);   
+        
+        return view('cart.index', compact('cart', 'judete', 'orase', 'user'));   
     }
 }
