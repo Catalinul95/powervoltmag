@@ -8,9 +8,7 @@
 @section('hero')
 <div class="container-sm container">
     <div class="slider">
-        <div><img src="https://cdn.spy-shop.ro/media/wysiwyg/bannere/concurs-newsletter-subs-NEW.jpg"></div>
-        <div><img src="https://cdn.spy-shop.ro/media/wysiwyg/bannere/concurs-newsletter-subs-NEW.jpg"></div>
-        <div><img src="https://cdn.spy-shop.ro/media/wysiwyg/bannere/concurs-newsletter-subs-NEW.jpg"></div>
+        <div><img src="{{ asset('images/wallpaper.jpg') }}"></div>
     </div>
     <div class="details-bar">
         <div class="details-item"><i class="fas fa-truck-moving"></i> <span>Transport gratuit la comenzi > 500 Lei</span></div>
