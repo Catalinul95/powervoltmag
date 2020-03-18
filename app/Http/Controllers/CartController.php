@@ -136,7 +136,13 @@ class CartController extends Controller
 
         $judete = json_decode($res1->getBody(), true);
         $orase = json_decode($res2->getBody(), true);
-        $user = User::find(Auth::user()->id);
+
+        if (Auth::check()) {
+            $user = User::find(Auth::user()->id);
+        } else {
+            $user = null;
+        }
+       
         
         
         return view('cart.index', compact('cart', 'judete', 'orase', 'user'));   
