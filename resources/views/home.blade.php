@@ -1,14 +1,17 @@
 @extends('layouts.app')
 
-@section('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css">
-@endsection
 
 @section('hero')
 <div class="container-sm container">
     <div class="slider">
-        <div><img src="{{ asset('images/wallpaper.jpg') }}"></div>
+        <div class="bg-container">
+            <img src="{{ asset('images/wallpaper4.jpg') }}">
+            <div class="absolute">
+                <h1><span class="power">POWER</span><span class="volt">VOLT</span><span class="mag">MAG</span>.RO</h1>
+                <h2>Camere si sisteme de securitate.</h2>
+                <h3>Suport tehnic si instalari la domiciliu.</h3>
+            </div>
+        </div>
     </div>
     <div class="details-bar">
         <div class="details-item"><i class="fas fa-truck-moving"></i> <span>Transport gratuit la comenzi > 500 Lei</span></div>
@@ -90,20 +93,92 @@
 </div>
 @endsection
 
+@section('styles')
+<link href="https://fonts.googleapis.com/css?family=Bangers|VT323&display=swap" rel="stylesheet">
+<style>
+div {
+    width: 100%;
+}
 
-@section('scripts')
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+.bg-container {
+    position: relative;
+    overflow: hidden;
+}
 
-    <script>
-        $(document).ready(function(){
-            $('.slider').slick({
-                nextArrow: '<button class="nextArrow"><i class="fas fa-chevron-right"></i></button>',
-                prevArrow: '<button class="prevArrow"><i class="fas fa-chevron-left"></i></button>',
-                arrows: false,
-                infinite: true,
-                autoplay: true,
-            });
-        });
+.bg-container img {
+    display: block;
+    width: auto;
+    height: auto;
+}
 
-    </script>
+.absolute {
+    position: absolute !important;
+    top: 80px;
+    left: 30px;
+    color: #fff;
+    font-family: 'VT323', monospace;
+    text-align: left;
+    width: 90%;
+}
+
+.absolute h1 {
+    margin-top: 1rem;
+    font-size: 5rem;
+    font-family: 'Bangers', cursive;
+}
+
+.absolute h2 {
+    font-size: 3rem;
+}
+
+.absolute h3 {
+    font-size: 2rem;
+}
+
+.power {
+    color: #f55255;
+}
+
+.volt {
+    color: #f8f558;
+}
+
+.mag {
+    color: #3aa7f9;
+}
+
+@media screen and (max-width: 800px) {
+    .absolute h1 {
+        margin-top: 2rem;
+        font-size: 4rem;
+        font-family: 'Bangers', cursive;
+    }
+
+    .absolute h2 {
+        font-size: 2.5rem;
+    }
+
+    .absolute h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .absolute h1 {
+        font-size: 2.5rem;
+        text-align: left;
+    }
+
+    .absolute h2 {
+        font-size: 2rem;
+        text-align: left;
+    }
+
+    .absolute h3 {
+        font-size: 1.5rem;
+        text-align: left;
+    }
+}
+</style>
 @endsection
+
