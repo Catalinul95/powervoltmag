@@ -13,11 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     @yield('styles')
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-        .dropdown-menu {
-            width: 300px !important;
-        }
-    </style>
 </head>
 <body>
     <div id="app">
